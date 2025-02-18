@@ -1,0 +1,158 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Runz History</title>
+    <link rel="stylesheet" href="/css/phone.css">
+    <link rel="stylesheet" href="/css/dashboard.css">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/js/all.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/chartjs-plugin-annotation@latest"></script>
+    <script src="https://cdn.jsdelivr.net/npm/chartjs-plugin-datalabels@latest"></script>
+
+
+</head>
+<body>
+    <div class="phone-frame">
+        <div class="phone-screen">
+            <h2>History</h2>
+              
+          
+              <ul id="history-list">
+                <% if (speeds && speeds.length > 0) { %> <!-- Check if speeds exists and is not empty -->
+                    <% speeds.forEach(function(speed) { %>
+                        
+                    <% }); %>
+                    <div class="time-box">
+                        <div class="time-item">
+                            <strong>Start Time:</strong> <span id="startTime"><%= startTime %></span>
+                        </div>
+                        <div class="time-item">
+                            <strong>End Time:</strong> <span id="endTime"><%= endTime %></span>
+                        </div>
+                    </div>
+                    
+                        <div class="avg"><strong>Average Speed:</strong> <%= averageSpeed %> km/h</div>
+            
+                    
+                <% } else { %>
+                    <p>No history yet.</p> <!-- Show this message if there are no speeds -->
+                <% } %>
+            </ul>
+
+            <canvas id="speedChart"></canvas>
+
+          
+            
+
+            <div class="menu-bar">
+                <a href="/dashboard" class="menu-item" data-target="homepage">
+                    <i class="fa fa-home"></i>
+                    Homepage
+                </a>
+                <a href="/history" class="menu-item active" data-target="history">
+                    <i class="fa fa-clock"></i>
+                    History
+                </a>
+                <a href="/profile" class="menu-item" data-target="profile-section">
+                    <i class="fa fa-user"></i>
+                    Profile
+                </a>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        
+        
+        const speeds = "<%= speedsString %>".split(',').map(Number);  // Convert to an array of numbers
+        const timestamps = "<%= timestampsString %>".split(',').map(ts => ts.trim()); // Convert to an array of time strings
+
+        console.log("Speeds:", speeds); 
+        console.log("Timestamps:", timestamps); 
+
+        const startTime = "<%= startTime %>"; // Start time from EJS
+        const endTime = "<%= endTime %>"; // End time from EJS
+        const speed = "<%= tSpeed %>";
+        const thresholdSpeed = speed;
+
+        const sampleRate = Math.ceil(speeds.length / 100); // Reduce to 100 points max
+        const sampledSpeeds = speeds.filter((_, index) => index % sampleRate === 0);
+        const sampledTimestamps = timestamps.filter((_, index) => index % sampleRate === 0);
+
+        
+        console.log("Speeds sampled:", sampledSpeeds); 
+        console.log("Timestamps sampled:", sampledTimestamps); 
+
+
+        
+
+        // Initialize Chart.js
+        const ctx = document.getElementById('speedChart').getContext('2d');
+        const speedChart = new Chart(ctx, {
+            type: 'line',
+            data: {
+                labels: sampledTimestamps, // X-axis (Time)
+                datasets: [{
+                    label: 'Speed (km/h)',
+                    data: sampledSpeeds, // Y-axis (Speed)
+                    borderColor: 'blue',
+                    borderWidth: 2,
+                    fill: false
+                }]
+            },
+            options: {
+                responsive: true,
+                maintainAspectRatio: false,
+                scales: {
+                    x: {
+                        title: {
+                            display: true,
+                            text: 'Time',
+                            font: {
+                    weight: 'bold' 
+                }
+                        }
+                    },
+                    y: {
+                        title: {
+                            display: true,
+                            text: 'Speed (km/h)',
+                            font: {
+                    weight: 'bold'  
+                }
+                        },
+                        suggestedMin: Math.min(...sampledSpeeds) - 1, // Set a minimum Y-axis value slightly below min speed
+                        suggestedMax: Math.max(...sampledSpeeds) + 1, // Set a maximum Y-axis value slightly above max speed
+                        beginAtZero: true // Allow Y-axis to scale naturally
+            
+                    }
+                },
+                plugins: {
+            annotation: {
+                annotations: {
+                    line1: {
+                        type: 'line',
+                        yMin: thresholdSpeed, // Set the threshold line
+                        yMax: thresholdSpeed, // Keep it constant
+                        borderColor: 'red', // Line color
+                        borderWidth: 2,
+                        borderDash: [10, 5], // Dashed line style
+                        label: {
+                            content: `Threshold: ${thresholdSpeed} km/h`,
+                            enabled: true,
+                            position: "end"
+                        }
+                    }
+                }
+            }
+        
+    },
+ 
+            }
+        });
+    </script>
+
+</body>
+</html>

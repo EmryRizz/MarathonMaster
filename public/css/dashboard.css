@@ -1,0 +1,168 @@
+body {
+    font-family: Arial, sans-serif;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100vh;
+    background-color: #f4f4f4;
+    margin: 0;
+  }
+
+  #speedChart {
+    max-height: 250px;
+    width: 100%;
+    margin-top: 110px;
+}
+
+.time-box {
+  display: flex;
+  justify-content: space-between; /* Align items side by side */
+  align-items: center; /* Vertically align items */
+  border: 2px solid #000; /* Add border */
+  padding: 10px; /* Add spacing inside the box */
+  border-radius: 8px; /* Rounded corners */
+  max-width: 300px; /* Adjust width */
+  margin: 10px auto; /* Center it */
+  background-color: #f9f9f9; /* Light background */
+}
+
+.time-item {
+  flex: 1; /* Make both items take equal space */
+  text-align: center; /* Center text */
+}
+
+.avg{
+  text-align: center;
+  padding-top: 5px;
+}
+  
+  .picker {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 10px;
+  }
+  
+  .wheel {
+    height: 120px;
+    width: 60px;
+    overflow: hidden;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    border: 2px solid #ddd;
+    border-radius: 10px;
+    background: white;
+  }
+  
+  .item {
+    text-align: center;
+    font-size: 24px;
+    line-height: 40px;
+    cursor: pointer;
+    color: #333;
+  }
+  
+  .label {
+    font-size: 24px;
+    font-weight: bold;
+  }
+  
+  select {
+    padding: 8px;
+    font-size: 16px;
+    width: 200px;
+}
+
+.circle-button {
+    display: inline-block;
+    margin-top: 10px;
+    width: 60px;
+    height: 60px;
+    background-color: #4CAF50;
+    color: white;
+    border: none;
+    border-radius: 50%;
+    font-size: 16px;
+    text-align: center;
+    line-height: 60px;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+}
+
+.circle-button:hover {
+    background-color: #45a049;
+}
+
+.time {
+  margin-top: 10px;
+  font-weight: bold;
+  font-size: 18px;
+}
+
+.stopwatch {
+  margin-top: 15px;
+}
+
+.history {
+  font-size: 20px;
+  text-align: left;
+  margin-top: 80px;
+}
+
+/* General Reset */
+body {
+  margin: 0;
+  padding: 0;
+  font-family: Arial, sans-serif;
+  background-color: #f4f4f4;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 100vh;
+}
+
+/* Profile Container */
+.profile-container {
+  background-color: #ffffff;
+  width: 300px;
+  padding: 10px;
+  border-radius: 10px;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+  text-align: center;
+}
+
+/* Profile Picture */
+.profile-picture {
+  margin-bottom: 15px;
+
+}
+
+.profile-picture img {
+  width: 120px;
+  height: 120px;
+  border-radius: 50%; /* Makes the image circular */
+  border: 4px solid #007bff; /* Border around the image */
+}
+
+/* User Details */
+.profile-details {
+  color: #333;
+}
+
+.username {
+  font-size: 1.5rem;
+  margin-bottom: 5px;
+}
+
+.email {
+  font-size: 1rem;
+  color: #555;
+  margin-bottom: 10px;
+}
+
+.bio {
+  font-size: 0.9rem;
+  color: #666;
+}

@@ -1,0 +1,83 @@
+/* Phone frame container */
+.phone-frame {
+  width: 360px; /* Standard phone width */
+  height: 640px; /* Standard phone height */
+  background: #ffffff;
+  border: 10px solid #000000; /* Outer border for the phone */
+  border-radius: 30px; /* Rounded edges for the phone frame */
+  display: flex;
+  flex-direction: column; /* Stack content vertically */
+  justify-content: center;
+  align-items: center;
+  box-shadow: 0px 10px 20px rgba(0, 0, 0, 0.3); /* Shadow for realism */
+  position: relative; /* Reference point for absolute positioning */
+  overflow: hidden; /* Prevent overflow outside the phone */
+}
+
+/* Phone screen content */
+.phone-screen {
+  width: 100%; /* Full width within the phone frame */
+  height: 100%; /* Full height within the phone frame */
+  background: #f9f9f9;
+  border-radius: 20px; /* Rounded edges for the screen */
+  padding: 20px;
+  box-sizing: border-box;
+  text-align: center;
+  position: relative; /* For menu-bar alignment */
+  overflow-y: auto; /* Allow scrolling for long content */
+}
+
+/* Menu bar at the bottom */
+.menu-bar {
+  position: absolute; /* Attach it to the bottom of the phone-screen */
+  bottom: 0;
+  left: 0;
+  width: 100%; /* Span the entire screen width */
+  display: flex;
+  justify-content: space-around; /* Evenly distribute items */
+  background-color: #f1f1f1; /* Light background color */
+  padding: 10px 0; /* Comfortable click area */
+  border-top: 1px solid #ccc; /* Subtle border at the top */
+}
+
+/* Individual menu items */
+.menu-item {
+  text-align: center;
+  color: #555; /* Neutral text color */
+  font-size: 12px; /* Slightly smaller font to fit */
+  flex: 1; /* Equal width for all menu items */
+}
+
+.menu-item i {
+  font-size: 18px; /* Adjust icon size for better fit */
+  display: block; /* Stack icon above text */
+  margin-bottom: 5px; /* Space between icon and label */
+}
+
+/* Active menu item */
+.menu-item.active {
+  color: #007BFF; /* Highlight color */
+}
+
+/* Add hover effect for better UX */
+.menu-item:hover {
+  color: #007BFF;
+  cursor: pointer;
+}
+
+/* Adjusting other content for better fit */
+#stopwatch {
+  margin: 20px 0;
+}
+
+#history-list {
+  text-align: left; /* Align history entries to the left */
+  font-size: 12px; /* Adjust font size to fit well */
+  list-style-type: none; /* Remove bullet points */
+  padding: 0;
+  margin: 10px 0;
+}
+
+#history-list li {
+  margin-bottom: 5px;
+}

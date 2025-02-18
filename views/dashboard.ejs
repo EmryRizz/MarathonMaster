@@ -1,0 +1,164 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Runz Dashboard</title>
+    <link rel="stylesheet" href="/css/phone.css">
+    <link rel="stylesheet" href="/css/dashboard.css">
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/js/all.min.js"></script>
+</head>
+<body>
+    <div class="phone-frame">
+        <div class="phone-screen">
+            <h2>Marathon Master</h2>
+            <h3>Choose Speed</h3>
+
+            <!-- Form for choosing speed -->
+            <form id="speedForm" action="/dashboard2" method="POST">
+                <select id="speed" name="speed" required>
+                    <option value="" disabled selected>Select your speed:</option>
+                    <% for (let i = 1; i <= 40; i++) { %>
+                        <option value="<%= i %>"><%= i %></option>
+                    <% } %>
+                </select>
+                <br><br>
+              
+                <button type="submit" id="startButton" class="circle-button">Start</button>
+            </form>
+
+            <!-- Stopwatch Display -->
+            <div id="stopwatch" class="stopwatch">
+                <span id="time" class="time">00:00:00</span>
+            </div>
+
+            <div class="menu-bar">
+                <a href="/dashboard" class="menu-item active">
+                    <i class="fa fa-home"></i> Homepage
+                </a>
+                <a href="/history" class="menu-item">
+                    <i class="fa fa-clock"></i> History
+                </a>
+                <a href="/profile" class="menu-item">
+                    <i class="fa fa-user"></i> Profile
+                </a>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        let startButton = document.getElementById('startButton');
+        let timeDisplay = document.getElementById('time');
+        let speedDropdown = document.getElementById('speed');
+        let startTime, updatedTime, difference, tInterval;
+        let running = false;
+
+        function start() {
+            if (!running) {
+                if (!speedDropdown.value) {
+                    alert("Please select a speed before starting the stopwatch.");
+                    return;
+                }
+
+                startTime = new Date().getTime(); // Record the start time
+        let selectedSpeed = speedDropdown.value; // Get the selected speed
+        saveTime(timeDisplay.textContent, selectedSpeed, startTime, null);  // Save speed when start button is clicked
+
+        running = true;
+        tInterval = setInterval(updateTime, 1000); // Start the stopwatch
+
+        startButton.innerHTML = "Stop"; // Change button text to "Stop"
+        startButton.style.backgroundColor = "red"; // Change button color to red
+        startButton.style.color = "white"; // Change text color to white
+            } else {
+                stop(); // Stop the stopwatch
+            }
+        }
+
+        function stop() {
+            console.log("Stop function triggered");  // Log to verify if the function is being called
+
+            running = false;
+            clearInterval(tInterval); // Stop the interval
+
+            startButton.disabled = true; // Disable the button
+
+            startButton.innerHTML = "Start"; // Reset button text
+            startButton.style.backgroundColor = "green"; // Reset button color
+            startButton.style.color = "white"; // Reset text color
+
+
+            endTime = new Date().getTime();
+            
+            getSpeeds(startTime, endTime); // This will call the backend route to fetch the speeds
+
+            setTimeout(() => {
+        startButton.disabled = false; // Enable button for the next use
+         }, 2000);
+       
+        }
+
+        function updateTime() {
+            updatedTime = new Date().getTime();
+            difference = updatedTime - startTime;
+
+            let hours = Math.floor((difference % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
+            let minutes = Math.floor((difference % (1000 * 60 * 60)) / (1000 * 60));
+            let seconds = Math.floor((difference % (1000 * 60)) / 1000);
+
+            hours = (hours < 10) ? "0" + hours : hours;
+            minutes = (minutes < 10) ? "0" + minutes : minutes;
+            seconds = (seconds < 10) ? "0" + seconds : seconds;
+
+            timeDisplay.textContent = `${hours}:${minutes}:${seconds}`;
+        }
+
+        function saveTime(time, speed) {
+    console.log('Sending time and speed:', time, speed); // Log for debugging
+
+    $.ajax({
+        url: "/dashboard2",
+        method: "POST",
+        data: {
+            action: "saveStopwatchTime",
+            time: time,
+            speed: parseInt(speed), // Ensure speed is an integer
+        },
+        success: function (response) {
+            console.log(response.message); // Log success message
+        },
+        error: function (xhr) {
+            console.error("Error saving time:", xhr.responseText); // Log error details
+        },
+    });
+}
+
+function getSpeeds(startTime, endTime) {
+    console.log('Fetching speeds from Firestore:', startTime, endTime); // Log for debugging
+
+    $.ajax({
+        url: "/dashboard2",
+        method: "POST",
+        data: {
+            action: "getSpeedsFromFirestore",
+            startTime: startTime,
+            endTime: endTime
+        },
+        success: function (response) {
+           
+       
+        },
+        error: function (xhr) {
+            console.error("Error fetching speeds:", xhr.responseText);  // Log error details
+            consolo.log(error);
+        }
+    });
+}
+
+
+
+        startButton.addEventListener('click', start); // Add click event listener
+    </script>
+</body>
+</html>

@@ -1,0 +1,57 @@
+
+/* General Reset */
+body {
+    margin: 0;
+    padding: 0;
+    font-family: Arial, sans-serif;
+    background-color: #f4f4f4;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100vh;
+  }
+  
+  /* Profile Container */
+  .profile-container {
+  
+    width: 300px;
+    padding: 10px;
+    border-radius: 10px;
+   
+    text-align: center;
+  }
+  
+  /* Profile Picture */
+  .profile-picture {
+    margin-bottom: 15px;
+  
+  }
+  
+  .profile-picture img {
+    width: 160px;
+    height: 160px;
+    border-radius: 50%; /* Makes the image circular */
+    border: 4px solid #007bff; /* Border around the image */
+  }
+  
+  /* User Details */
+  .profile-details {
+    color: #333;
+  }
+  
+  .username {
+    font-size: 1.5rem;
+    margin-bottom: 5px;
+  }
+  
+  .email {
+    font-size: 1rem;
+    color: #555;
+    margin-bottom: 10px;
+  }
+  
+  .bio {
+    font-size: 0.9rem;
+    color: #666;
+  }
+  
